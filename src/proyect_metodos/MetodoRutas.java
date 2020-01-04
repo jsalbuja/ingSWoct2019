@@ -10,7 +10,6 @@ import java.util.StringTokenizer;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import proyect_clases.Boleto;
 import proyect_clases.Rutas;
 
 public class MetodoRutas {

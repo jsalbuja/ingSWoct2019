@@ -1,13 +1,6 @@
 package proyect_gui;
 
-import java.awt.Component;
-import static java.awt.SystemColor.control;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import proyect_metodos.MetodoPasajero;

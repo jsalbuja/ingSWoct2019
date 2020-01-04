@@ -2,7 +2,6 @@ package proyect_gui;
 
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
-import java.util.Date;
 import proyect_clases.Rutas;
 import proyect_metodos.MetodoRutas;
 

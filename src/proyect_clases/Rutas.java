@@ -1,8 +1,5 @@
 package proyect_clases;
 
-import java.sql.Time;
-import java.util.Date;
-
 public class Rutas {
     
     private int id_Ruta;

@@ -4,12 +4,8 @@ package proyect_gui;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import proyect_metodos.MetodoPasajero;
-import proyect_metodos.MetodoUsuario;
 
 public class RegistroUsuarios extends javax.swing.JFrame {
 

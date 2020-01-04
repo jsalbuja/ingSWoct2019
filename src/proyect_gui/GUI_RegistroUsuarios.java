@@ -1,14 +1,9 @@
 package proyect_gui;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.util.Vector;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import proyect_clases.Usuario;
 import proyect_metodos.MetodoUsuario;
-import proyect_metodos.MetodoBoleto;
 
 public class GUI_RegistroUsuarios extends javax.swing.JFrame {
 

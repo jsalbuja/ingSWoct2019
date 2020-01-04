@@ -1,6 +1,5 @@
 package proyect_gui;
 
-import java.awt.BorderLayout;
 import javax.swing.JOptionPane;
 
 public class GUIi_AccesoSistema extends javax.swing.JFrame {

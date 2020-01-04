@@ -1,10 +1,8 @@
 package proyect_gui;
 
 import java.util.Vector;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import proyect_clases.Pasajero;
-import proyect_clases.Rutas;
 import proyect_metodos.MetodoBoleto;
 import proyect_metodos.MetodoPasajero;
 import proyect_metodos.MetodoRutas;

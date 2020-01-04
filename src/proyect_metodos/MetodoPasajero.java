@@ -4,8 +4,6 @@ package proyect_metodos;
 import java.io.*;
 import java.util.*;
 import javax.swing.*;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import proyect_clases.Pasajero;
 
