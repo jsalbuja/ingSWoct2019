@@ -121,21 +121,9 @@ public class GUIi_AccesoSistema extends javax.swing.JFrame {
                 b.setVisible(true);
                 dispose();
             }
-            else if( usuario.isEmpty() && contraseña.isEmpty() )
-            {
-                JOptionPane.showMessageDialog(null, "Ingrese Usuario y Contraseña");
-            }
-            else if( usuario != user && contraseña != pass )
+            else 
             {
                 JOptionPane.showMessageDialog(null, "Usuario y Contraseña Incorrectos", "Error Al Ingresar", JOptionPane.ERROR_MESSAGE);
-            }
-            else if( usuario != user )
-            {
-                JOptionPane.showMessageDialog(null, "Usuario Incorrecto", "Usuario No Existe", JOptionPane.ERROR_MESSAGE);
-            }
-            else if( contraseña != pass )
-            {
-                JOptionPane.showMessageDialog(null, "Contraseña Incorrecta", "Contraseña Mal Escrita", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_cj_passKeyTyped

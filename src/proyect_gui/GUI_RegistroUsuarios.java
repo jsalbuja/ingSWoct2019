@@ -1,6 +1,7 @@
 package proyect_gui;
 
 import java.util.Vector;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import proyect_clases.Usuario;
 import proyect_metodos.MetodoUsuario;
@@ -8,28 +9,28 @@ import proyect_metodos.MetodoUsuario;
 public class GUI_RegistroUsuarios extends javax.swing.JFrame {
 
     Usuario usuario = new Usuario();
-    MetodoUsuario metodos = new MetodoUsuario ();
-    MetodoUsuario buscar = new MetodoUsuario ();
+    MetodoUsuario metodos = new MetodoUsuario();
+    MetodoUsuario buscar = new MetodoUsuario();
     MetodoUsuario eliminar = new MetodoUsuario();
-    DefaultTableModel mdlTablaU;
+    
     Vector vCabeceras = new Vector();
     Vector v = new Vector();
-    
+
     public GUI_RegistroUsuarios() {
         initComponents();
-        
+
         vCabeceras.addElement("ID");
         vCabeceras.addElement("NOMBRE");
         vCabeceras.addElement("APELLIDO");
         vCabeceras.addElement("USER");
         vCabeceras.addElement("PASSWORD");
-        mdlTablaU = new DefaultTableModel(vCabeceras,0);
-        table_usuario.setModel(mdlTablaU);
+
         table_usuario.setModel(metodos.listaUsuario());
 
+        this.setLocationRelativeTo(null);
     }
 
-      @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -59,6 +60,7 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
         btn_u_salir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("MANTENIMIENTO DE USUARIOS");
 
         table_usuario.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -80,6 +82,8 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(table_usuario);
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel6.setText("INGRESO DE USUARIOS:");
@@ -148,6 +152,8 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel7.setText("BUSQUEDA Y EDITAR DE  USUARIOS:");
 
@@ -163,7 +169,7 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
                     .addComponent(jLabel7)
                     .addComponent(txt_u_id_busca, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
-                .addContainerGap(109, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -176,6 +182,8 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
                 .addComponent(txt_u_id_busca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(17, Short.MAX_VALUE))
         );
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         btn_u_nuevo.setText("Nuevo");
         btn_u_nuevo.addActionListener(new java.awt.event.ActionListener() {
@@ -253,8 +261,8 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -278,15 +286,17 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_u_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_u_guardarActionPerformed
-        // TODO add your handling code here:
 
-        mdlTablaU = new DefaultTableModel();
-        
+        if (!ValidarFormulario()) {
+            return;
+        }
+
         int id_u = Integer.parseInt(txt_u_id.getText());
         String nombre_u = txt_u_nombre.getText();
         String apellido_u = txt_u_apellido.getText();
         String user_u = txt_u_user.getText();
         String password_u = txt_u_password.getText();
+        
         usuario.setId_usuario(id_u);
         usuario.setNombre_usuario(nombre_u);
         usuario.setApellido_usuario(apellido_u);
@@ -294,6 +304,7 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
         usuario.setPassword(password_u);
         metodos.guardarUsuario(usuario);
         metodos.guardarArchivoUsuario(usuario);
+        
         table_usuario.setModel(metodos.listaUsuario());
     }//GEN-LAST:event_btn_u_guardarActionPerformed
 
@@ -311,19 +322,63 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
         txt_u_apellido.setText("");
         txt_u_password.setText("");
         txt_u_user.setText("");
+        
+        // Activa los controles
+        txt_u_id.setEnabled(true);
     }//GEN-LAST:event_btn_u_nuevoActionPerformed
 
     private void btn_u_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_u_eliminarActionPerformed
-       
 
-        
+
     }//GEN-LAST:event_btn_u_eliminarActionPerformed
 
     private void btn_u_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_u_editarActionPerformed
-       
-        
-        
+
+        if ("".equals(txt_u_id.getText())) {
+            JOptionPane.showMessageDialog(null, "Ingrese un id para buscar", "Atención", JOptionPane.WARNING_MESSAGE);
+            txt_u_id.setFocusable(true);
+        } else {
+            Vector reg = metodos.BuscarUsuario(txt_u_id.getText());
+
+            if (reg.size() > 0) {
+                txt_u_nombre.setText(reg.get(1).toString());
+                txt_u_apellido.setText(reg.get(2).toString());
+                txt_u_user.setText(reg.get(3).toString());
+                txt_u_password.setText(reg.get(4).toString());
+
+                txt_u_id.setEnabled(false);
+                txt_u_id.setFocusable(true);
+            } else {
+                JOptionPane.showMessageDialog(null, "No existe un registro con este Id", "Atención", JOptionPane.WARNING_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_btn_u_editarActionPerformed
+
+    private boolean ValidarFormulario() {
+
+        Vector reg = metodos.BuscarUsuario(txt_u_id.getText());
+
+        if (reg.size() > 0) {
+            JOptionPane.showMessageDialog(null, "Ya existe un usuario con este Id", "Atención", JOptionPane.WARNING_MESSAGE);
+
+            txt_u_id.setText("");
+            txt_u_id.setFocusable(true);
+
+            return false;
+        }
+
+        if ("".equals(txt_u_nombre.getText()) || "".equals(txt_u_apellido.getText())) {
+            JOptionPane.showMessageDialog(null, "La información de identificación está incompleta", "Atención", JOptionPane.WARNING_MESSAGE);
+            txt_u_nombre.setFocusable(true);
+        }
+
+        if ("".equals(txt_u_user.getText()) || "".equals(txt_u_password.getText())) {
+            JOptionPane.showMessageDialog(null, "La información de autenticación está incompleta", "Atención", JOptionPane.WARNING_MESSAGE);
+            txt_u_user.setFocusable(true);
+        }
+
+        return true;
+    }
 
     /**
      * @param args the command line arguments
@@ -341,23 +396,18 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GUI_RegistroUsuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GUI_RegistroUsuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GUI_RegistroUsuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(GUI_RegistroUsuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
 
+        //</editor-fold>
+        //</editor-fold>
+
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GUI_RegistroUsuarios().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new GUI_RegistroUsuarios().setVisible(true);
         });
     }
 

@@ -44,7 +44,7 @@ public class Usuario {
         this.apellido_usuario = apellido_usuario;
     }
 
-    public String getUsarname() {
+    public String getUsername() {
         return usarname;
     }
 

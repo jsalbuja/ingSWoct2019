@@ -24,6 +24,8 @@ public class GUI_RegistroPasajeros extends javax.swing.JFrame {
         mdlTablaP = new DefaultTableModel(vCabeceras,0);
         table_pasajero.setModel(mdlTablaP);
         table_pasajero.setModel(metodos.listaPasajero());
+        
+        this.setLocationRelativeTo(null);
     }
    
     @SuppressWarnings("unchecked")
@@ -49,7 +51,7 @@ public class GUI_RegistroPasajeros extends javax.swing.JFrame {
         btn_p_actializar = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Nombre:");
 
