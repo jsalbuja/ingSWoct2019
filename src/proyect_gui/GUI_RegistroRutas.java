@@ -10,6 +10,7 @@ import javax.swing.table.DefaultTableModel;
 import proyect_clases.Rutas;
 import proyect_metodos.Entorno;
 import proyect_metodos.MetodoRutas;
+import proyect_metodos.Metodos;
 
 public class GUI_RegistroRutas extends javax.swing.JFrame {
 
@@ -342,6 +343,27 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
 
             return false;
         }
+        
+        if (!Metodos.IsNumeric(txt_r_costo.getText())) {
+            JOptionPane.showMessageDialog(null, "El costo no es un valor numérico", "Atención", JOptionPane.WARNING_MESSAGE);
+            txt_r_costo.setFocusable(true);
+
+            return false;
+        }
+        
+        if (!Metodos.IsDate(txt_r_fecha.getText())) {
+            JOptionPane.showMessageDialog(null, "La fecha no tiene un formato válido", "Atención", JOptionPane.WARNING_MESSAGE);
+            txt_r_fecha.setFocusable(true);
+
+            return false;
+        }
+        
+        if (!Metodos.IsTime(txt_r_hora.getText())) {
+            JOptionPane.showMessageDialog(null, "La hora no tiene un formato válido", "Atención", JOptionPane.WARNING_MESSAGE);
+            txt_r_hora.setFocusable(true);
+
+            return false;
+        }
 
         return true;
     }
@@ -395,6 +417,8 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
         txt_r_costo.setText("");
         txt_r_hora.setText("");
         txt_r_fecha.setText("");
+        
+        txt_r_id.setEnabled(true);
     }//GEN-LAST:event_btn_r_nuevoActionPerformed
 
     private void btn_r_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_r_eliminarActionPerformed
@@ -425,7 +449,7 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
         if (!"".equals(txt_r_id1.getText())) {
             reg = metodos.BuscarRutaPorId(txt_r_id1.getText());
         } else {
-            reg = metodos.BuscarRutaPorId(txt_r_nombre1.getText());
+            reg = metodos.BuscarRutaPorNombre(txt_r_nombre1.getText());
         }
 
         if (reg.size() > 0) {

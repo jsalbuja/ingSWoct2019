@@ -34,7 +34,7 @@ public class MetodoRutas {
                 pw.print("|" + rutas.getOrigen_Ruta());
                 pw.print("|" + rutas.getDestino_Ruta());
                 pw.print("|" + rutas.getCosto_Ruta());
-                pw.println("|" + rutas.getFecha_Ruta());
+                pw.print("|" + rutas.getFecha_Ruta());
                 pw.print("|" + rutas.getHora_Ruta());
             }
         } catch (IOException e) {
