@@ -85,8 +85,8 @@ public class Rutas {
                 .concat(nombre_Ruta).concat("|")
                 .concat(origen_Ruta).concat("|")
                 .concat(destino_Ruta).concat("|")
+                .concat(costo_Ruta).concat("|")
                 .concat(fecha_Ruta).concat("|")
-                .concat(hora_Ruta).concat("|")
-                .concat(costo_Ruta).concat(System.lineSeparator());
+                .concat(hora_Ruta).concat(System.lineSeparator());
     }
 }

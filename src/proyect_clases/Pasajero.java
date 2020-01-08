@@ -6,14 +6,14 @@ public class Pasajero {
     private String  nombre_pasajero;
     private String  apellido_pasajero;
     private String  tipo_pasajero;
-    private int     cedula_pasajero;
+    private String     cedula_pasajero;
     private int     edad_pasajero;
 
     public Pasajero(){
     
     }
 
-    public Pasajero(String id_pasajero, String nombre_pasajero, String apellido_pasajero, String tipo_pasajero, int cedula_pasajero, int edad_pasajero) {
+    public Pasajero(String id_pasajero, String nombre_pasajero, String apellido_pasajero, String tipo_pasajero, String cedula_pasajero, int edad_pasajero) {
         this.id_pasajero        = id_pasajero;
         this.nombre_pasajero    = nombre_pasajero;
         this.apellido_pasajero  = apellido_pasajero;
@@ -54,11 +54,11 @@ public class Pasajero {
         this.tipo_pasajero = tipo_pasajero;
     }
 
-    public int getCedula_pasajero() {
+    public String getCedula_pasajero() {
         return cedula_pasajero;
     }
 
-    public void setCedula_pasajero(int cedula_pasajero) {
+    public void setCedula_pasajero(String cedula_pasajero) {
         this.cedula_pasajero = cedula_pasajero;
     }
 
@@ -70,5 +70,13 @@ public class Pasajero {
         this.edad_pasajero = edad_pasajero;
     }
     
+    public String getToken() {
+                return String.valueOf(id_pasajero).concat("|")
+                .concat(nombre_pasajero).concat("|")
+                .concat(apellido_pasajero).concat("|")
+                .concat(tipo_pasajero).concat("|")
+                .concat(cedula_pasajero).concat("|")
+                .concat(String.valueOf(edad_pasajero)).concat(System.lineSeparator());
+    }
 }
 
