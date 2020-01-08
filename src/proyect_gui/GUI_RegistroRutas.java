@@ -22,10 +22,12 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
         vCabeceras.addElement("COSTO");
         vCabeceras.addElement("HORA");
         vCabeceras.addElement("FECHA");
+        
         mdlTablaR = new DefaultTableModel(vCabeceras,0);
         table_rutas.setModel(mdlTablaR);
         table_rutas.setModel(metodos.listaRutas());
         
+        this.setLocationRelativeTo(null);
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

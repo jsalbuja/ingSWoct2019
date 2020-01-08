@@ -1,7 +1,7 @@
 package proyect_clases;
 
 public class Rutas {
-    
+
     private int id_Ruta;
     private String nombre_Ruta;
     private String origen_Ruta;
@@ -10,8 +10,8 @@ public class Rutas {
     private String hora_Ruta;
     private String costo_Ruta;
 
-    public Rutas(){
-    
+    public Rutas() {
+
     }
 
     public Rutas(int id_Ruta, String nombre_Ruta, String origen_Ruta, String destino_Ruta, String fecha_Ruta, String hora_Ruta, String costo_Ruta) {
@@ -80,5 +80,13 @@ public class Rutas {
         this.costo_Ruta = costo_Ruta;
     }
 
-   
+    public String getToken() {
+        return String.valueOf(id_Ruta).concat("|")
+                .concat(nombre_Ruta).concat("|")
+                .concat(origen_Ruta).concat("|")
+                .concat(destino_Ruta).concat("|")
+                .concat(fecha_Ruta).concat("|")
+                .concat(hora_Ruta).concat("|")
+                .concat(costo_Ruta).concat(System.lineSeparator());
+    }
 }

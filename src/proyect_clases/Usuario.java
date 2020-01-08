@@ -60,5 +60,13 @@ public class Usuario {
         this.password = password;
     }
     
-    
+    public String getToken() {
+        return 
+            String.valueOf(this.id_usuario).concat("|")
+                  .concat(nombre_usuario).concat("|")
+                  .concat(apellido_usuario).concat("|")
+                  .concat(usarname).concat("|")
+                  .concat(password).concat("|")
+                  .concat(System.lineSeparator());
+    }
 }

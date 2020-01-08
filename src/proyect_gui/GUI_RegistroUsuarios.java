@@ -1,8 +1,10 @@
 package proyect_gui;
 
+import java.io.IOException;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 import proyect_clases.Usuario;
 import proyect_metodos.MetodoUsuario;
 
@@ -12,7 +14,7 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
     MetodoUsuario metodos = new MetodoUsuario();
     MetodoUsuario buscar = new MetodoUsuario();
     MetodoUsuario eliminar = new MetodoUsuario();
-    
+
     Vector vCabeceras = new Vector();
     Vector v = new Vector();
 
@@ -296,15 +298,20 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
         String apellido_u = txt_u_apellido.getText();
         String user_u = txt_u_user.getText();
         String password_u = txt_u_password.getText();
-        
+
         usuario.setId_usuario(id_u);
         usuario.setNombre_usuario(nombre_u);
         usuario.setApellido_usuario(apellido_u);
         usuario.setUsarname(user_u);
         usuario.setPassword(password_u);
-        metodos.guardarUsuario(usuario);
-        metodos.guardarArchivoUsuario(usuario);
-        
+
+        if (txt_u_id.isEnabled()) {
+            metodos.guardarUsuario(usuario);
+            metodos.guardarArchivoUsuario(usuario);
+        } else {
+            metodos.EditarUsuario(usuario);
+        }
+
         table_usuario.setModel(metodos.listaUsuario());
     }//GEN-LAST:event_btn_u_guardarActionPerformed
 
@@ -322,25 +329,35 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
         txt_u_apellido.setText("");
         txt_u_password.setText("");
         txt_u_user.setText("");
-        
+
         // Activa los controles
         txt_u_id.setEnabled(true);
     }//GEN-LAST:event_btn_u_nuevoActionPerformed
 
     private void btn_u_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_u_eliminarActionPerformed
 
+        int dialogButton = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar este registro?", "Confirmación requerida", JOptionPane.YES_NO_OPTION);
 
+        if (dialogButton == JOptionPane.YES_OPTION) {
+            try {
+                metodos.EliminarUsuario(txt_u_id_busca.getText());
+                table_usuario.setModel(metodos.listaUsuario());
+            } catch (IOException ex) {
+                Logger.getLogger(GUI_RegistroUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_btn_u_eliminarActionPerformed
 
     private void btn_u_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_u_editarActionPerformed
 
-        if ("".equals(txt_u_id.getText())) {
+        if ("".equals(txt_u_id_busca.getText())) {
             JOptionPane.showMessageDialog(null, "Ingrese un id para buscar", "Atención", JOptionPane.WARNING_MESSAGE);
-            txt_u_id.setFocusable(true);
+            txt_u_id_busca.setFocusable(true);
         } else {
-            Vector reg = metodos.BuscarUsuario(txt_u_id.getText());
+            Vector reg = metodos.BuscarUsuario(txt_u_id_busca.getText());
 
             if (reg.size() > 0) {
+                txt_u_id.setText(reg.get(0).toString());
                 txt_u_nombre.setText(reg.get(1).toString());
                 txt_u_apellido.setText(reg.get(2).toString());
                 txt_u_user.setText(reg.get(3).toString());
@@ -356,25 +373,31 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
 
     private boolean ValidarFormulario() {
 
-        Vector reg = metodos.BuscarUsuario(txt_u_id.getText());
+        if (txt_u_id.isEnabled()) {
+            Vector reg = metodos.BuscarUsuario(txt_u_id.getText());
 
-        if (reg.size() > 0) {
-            JOptionPane.showMessageDialog(null, "Ya existe un usuario con este Id", "Atención", JOptionPane.WARNING_MESSAGE);
+            if (reg.size() > 0) {
+                JOptionPane.showMessageDialog(null, "Ya existe un usuario con este Id", "Atención", JOptionPane.WARNING_MESSAGE);
 
-            txt_u_id.setText("");
-            txt_u_id.setFocusable(true);
+                txt_u_id.setText("");
+                txt_u_id.setFocusable(true);
 
-            return false;
+                return false;
+            }
         }
-
+        
         if ("".equals(txt_u_nombre.getText()) || "".equals(txt_u_apellido.getText())) {
             JOptionPane.showMessageDialog(null, "La información de identificación está incompleta", "Atención", JOptionPane.WARNING_MESSAGE);
             txt_u_nombre.setFocusable(true);
+
+            return false;
         }
 
         if ("".equals(txt_u_user.getText()) || "".equals(txt_u_password.getText())) {
             JOptionPane.showMessageDialog(null, "La información de autenticación está incompleta", "Atención", JOptionPane.WARNING_MESSAGE);
             txt_u_user.setFocusable(true);
+
+            return false;
         }
 
         return true;

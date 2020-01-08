@@ -2,6 +2,7 @@ package proyect_metodos;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,8 +16,6 @@ import proyect_clases.Usuario;
 public class MetodoUsuario {
 
     Vector vUsuario = new Vector();
-    Vector v1 = new Vector();
-    
 
     public void guardarUsuario(Usuario unUsuario) {
         vUsuario.addElement(unUsuario);
@@ -40,6 +39,7 @@ public class MetodoUsuario {
     }
 
     public DefaultTableModel listaUsuario() {
+
         Vector cabeceras = new Vector();
         cabeceras.addElement("ID");
         cabeceras.addElement("NOMBRE");
@@ -49,19 +49,22 @@ public class MetodoUsuario {
 
         //Crear vector con nombre apellido pasajero cedula edad
         DefaultTableModel mdlTablaU = new DefaultTableModel(cabeceras, 0);
-        
-        try {
-            FileReader fr = new FileReader(Entorno.RutaUsuarios);
-            BufferedReader br = new BufferedReader(fr);
-            String d;
-            while ((d = br.readLine()) != null) {
-                StringTokenizer dato = new StringTokenizer(d, "|");
-                Vector x = new Vector();
 
-                while (dato.hasMoreTokens()) {
-                    x.addElement(dato.nextToken());
+        try {
+            try (FileReader fr = new FileReader(Entorno.RutaUsuarios);
+                    BufferedReader br = new BufferedReader(fr)) {
+
+                String d;
+
+                while ((d = br.readLine()) != null) {
+                    StringTokenizer dato = new StringTokenizer(d, "|");
+                    Vector x = new Vector();
+
+                    while (dato.hasMoreTokens()) {
+                        x.addElement(dato.nextToken());
+                    }
+                    mdlTablaU.addRow(x);
                 }
-                mdlTablaU.addRow(x);
             }
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, e);
@@ -70,10 +73,13 @@ public class MetodoUsuario {
     }
 
     public Vector BuscarUsuario(String unIdUser) {
+
+        Vector v1 = new Vector();
+
         try {
             try (FileReader fr = new FileReader(Entorno.RutaUsuarios);
                     BufferedReader br = new BufferedReader(fr)) {
-                
+
                 String d;
 
                 while ((d = br.readLine()) != null) {
@@ -95,17 +101,83 @@ public class MetodoUsuario {
         return v1;
     }
 
-    public void EditarUsuario() {
+    public void EditarUsuario(Usuario usuario) {
 
-        //FALTA
+        String unIdUser = String.valueOf(usuario.getId_usuario());
+
+        try {
+            FileWriter fw;
+
+            try (FileReader fr = new FileReader(Entorno.RutaUsuarios);
+                    BufferedReader br = new BufferedReader(fr)) {
+
+                fw = new FileWriter(new File(Entorno.RutaUsuarios.concat("_tmp")));
+
+                try (BufferedWriter bw = new BufferedWriter(fw)) {
+                    String d;
+
+                    while ((d = br.readLine()) != null) {
+                        StringTokenizer dato = new StringTokenizer(d, "|");
+                        Vector x = new Vector();
+
+                        while (dato.hasMoreTokens()) {
+                            x.addElement(dato.nextToken());
+                        }
+
+                        String a = x.elementAt(0).toString();
+                        if (!a.equals(unIdUser)) {
+                            bw.write(d.concat(System.lineSeparator()));
+                        } else {
+                            bw.write(usuario.getToken());
+                        }
+                    }
+                }
+            }
+            fw.close();
+
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+
+        new File(Entorno.RutaUsuarios).delete();
+        new File(Entorno.RutaUsuarios.concat("_tmp")).renameTo(new File(Entorno.RutaUsuarios));
     }
 
-    public void EliminarUsuario() {
+    public void EliminarUsuario(String unIdUser) throws IOException {
 
-        //FALTA
-    }
+        try {
+            FileWriter fw;
 
-    public void ReescribirArchivo() {
-        
+            try (FileReader fr = new FileReader(Entorno.RutaUsuarios);
+                    BufferedReader br = new BufferedReader(fr)) {
+
+                fw = new FileWriter(new File(Entorno.RutaUsuarios.concat("_tmp")));
+
+                try (BufferedWriter bw = new BufferedWriter(fw)) {
+                    String d;
+
+                    while ((d = br.readLine()) != null) {
+                        StringTokenizer dato = new StringTokenizer(d, "|");
+                        Vector x = new Vector();
+
+                        while (dato.hasMoreTokens()) {
+                            x.addElement(dato.nextToken());
+                        }
+
+                        String a = x.elementAt(0).toString();
+                        if (!a.equals(unIdUser)) {
+                            bw.write(d.concat(System.lineSeparator()));
+                        }
+                    }
+                }
+            }
+            fw.close();
+
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+
+        new File(Entorno.RutaUsuarios).delete();
+        new File(Entorno.RutaUsuarios.concat("_tmp")).renameTo(new File(Entorno.RutaUsuarios));
     }
 }
