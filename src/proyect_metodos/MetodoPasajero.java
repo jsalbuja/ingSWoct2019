@@ -17,7 +17,6 @@ public class MetodoPasajero {
 
     //guardar archivo txt
     public void GuardarArchivoPasajero(Pasajero pasajero) {
-
         try {
             try (FileWriter fw = new FileWriter(Entorno.RutaPasajeros, true);
                     BufferedWriter bw = new BufferedWriter(fw);
