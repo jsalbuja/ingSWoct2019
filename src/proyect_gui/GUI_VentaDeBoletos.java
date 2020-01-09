@@ -28,7 +28,7 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
 
         txt_venta_rutaorigen.setVisible(false);
         txt_venta_rutadestino.setVisible(false);
-        
+
         this.setLocationRelativeTo(null);
     }
 
@@ -371,7 +371,7 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
             }
         });
 
-        btn_p_eliminar.setText("Editar");
+        btn_p_eliminar.setText("Eliminar");
         btn_p_eliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_p_eliminarActionPerformed(evt);
@@ -468,20 +468,50 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
         txt_venta_descuento.setText("");
         txt_venta_total.setText("");
 
+        btn_p_guardar.setEnabled(false);
     }//GEN-LAST:event_btn_ventas_nuevoActionPerformed
 
     private void btn_p_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_p_eliminarActionPerformed
-        
-         String NumBoleto = JOptionPane.showInputDialog("Ingrese el número de boleto: ");
-         
-         if (!Metodos.IsNumeric(NumBoleto)) {
-             JOptionPane.showMessageDialog(null, "El valor ingresado no es numérico", "Atención", JOptionPane.WARNING_MESSAGE);
-            return;
-         }
-         
-         Boleto reg = boleto.BuscarBoleto(unUsuario)
-         
 
+        String NumBoleto = JOptionPane.showInputDialog("Ingrese el número de boleto: ");
+
+        if (!Metodos.IsNumeric(NumBoleto)) {
+            JOptionPane.showMessageDialog(null, "El valor ingresado no es numérico", "Atención", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        Vector reg = boleto.BuscarBoleto(NumBoleto);
+
+        txt_venta_busca_cedula.setText(reg.get(6).toString());
+        txt_venta_nombre.setText(reg.get(7).toString());
+        txt_venta_apellido.setText(reg.get(8).toString());
+        txt_venta_tipoPasajero.setText(reg.get(9).toString());
+        txt_venta_edad.setText(reg.get(10).toString());
+
+        txt_venta_busca_ruta.setText(reg.get(11).toString());
+        txt_venta_costo.setText(reg.get(16).toString());
+        txt_venta_fecha.setText(reg.get(14).toString());
+        txt_venta_hora.setText(reg.get(15).toString());
+
+        txt_venta_numboleto.setText(reg.get(1).toString());
+        txt_venta_descuento.setText(reg.get(4).toString());
+        txt_venta_total.setText(reg.get(5).toString());
+
+        btn_p_guardar.setEnabled(false);
+
+        int dialogButton = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar este boleto?", "Confirmación requerida", JOptionPane.YES_NO_OPTION);
+
+        if (dialogButton == JOptionPane.YES_OPTION) {
+
+            boleto.EliminarBoleto(NumBoleto);
+
+            JOptionPane.showMessageDialog(null,
+                    "Se ha eliminado el boleto No. ".concat(String.valueOf(NumBoleto)),
+                    "Atención", JOptionPane.INFORMATION_MESSAGE);
+
+            btn_ventas_nuevoActionPerformed(null);
+            txt_venta_busca_cedula.setFocusable(true);
+        }
     }//GEN-LAST:event_btn_p_eliminarActionPerformed
 
     private void btn_buscarr_pasajeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_buscarr_pasajeroActionPerformed
@@ -572,25 +602,25 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
             reg.setDestinoRuta(txt_venta_rutadestino.getText());
             reg.setFechaRuta(txt_venta_fecha.getText());
             reg.setHoraRuta(txt_venta_hora.getText());
-            
+
             reg.setSecuencia_boleto(secuencia);
             reg.setNumero_boleto(numBoletos);
             reg.setDescuento_boleto(descuento);
             reg.setCosto_boleto(total);
             reg.setHora_boleto(java.time.LocalTime.now().toString());
-            
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");  
+
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
             reg.setFecha_boleto(formatter.format(new java.util.Date()));
 
-            boleto.guardarBoleto(reg); 
-            
-            JOptionPane.showMessageDialog(null,  
-                    "Se ha generado el boleto No. ".concat(String.valueOf(secuencia)) 
-                    , "Atención", JOptionPane.ERROR_MESSAGE);
-            
+            boleto.guardarBoleto(reg);
+
+            JOptionPane.showMessageDialog(null,
+                    "Se ha generado el boleto No. ".concat(String.valueOf(secuencia)),
+                    "Atención", JOptionPane.ERROR_MESSAGE);
+
             btn_ventas_nuevoActionPerformed(null);
             txt_venta_busca_cedula.setFocusable(true);
-            
+
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Atención", JOptionPane.ERROR_MESSAGE);
         }

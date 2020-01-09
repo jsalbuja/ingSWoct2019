@@ -175,7 +175,7 @@ public class MetodoPasajero {
         try {
             FileWriter fw;
 
-            try (FileReader fr = new FileReader(Entorno.RutaRutas);
+            try (FileReader fr = new FileReader(Entorno.RutaPasajeros);
                     BufferedReader br = new BufferedReader(fr)) {
 
                 fw = new FileWriter(new File(Entorno.RutaPasajeros.concat("_tmp")));
