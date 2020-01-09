@@ -1,14 +1,61 @@
 package proyect_gui;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.StringTokenizer;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import proyect_metodos.Entorno;
+import proyect_metodos.Metodos;
 
 public class GUIi_AccesoSistema extends javax.swing.JFrame {
-    
-    public static String user = "admin";
-    public static String pass = "1234";
-    
+
     public GUIi_AccesoSistema() {
         initComponents();
+        InicializaEntorno();
+    }
+
+    private void InicializaEntorno() {
+
+        File tmp = new File(Entorno.RutaAccesos);
+
+        if (!tmp.exists()) {
+            try {
+                tmp.createNewFile();
+            } catch (IOException ex) {
+                Logger.getLogger(GUI_RegistroRutas.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    public void GuardarAcceso(String _usuario, String _estado) {
+        try {
+            FileWriter fw = new FileWriter(Entorno.RutaAccesos, true);
+            BufferedWriter bw = new BufferedWriter(fw);
+
+            String Hora = java.time.LocalTime.now().toString();
+
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+            String Fecha = formatter.format(new java.util.Date());
+
+            try (PrintWriter pw = new PrintWriter(bw)) {
+                pw.print(_usuario);
+                pw.print("|" + Metodos.GetMachineAddress());
+                pw.print("|" + Fecha);
+                pw.print("|" + Hora);
+                pw.println("|" + _estado);
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -107,26 +154,55 @@ public class GUIi_AccesoSistema extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cj_passKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cj_passKeyTyped
-        // TODO add your handling code here:
 
         int c = evt.getKeyChar();
-        if( c==10 )
-        {
+        if (c == 10) {
             String usuario = cj_usuario.getText().trim();
             String contraseña = new String(cj_pass.getPassword());
 
-            if( usuario.equalsIgnoreCase(user) && contraseña.equalsIgnoreCase(pass) )
-            {
+            if (Autenticar(usuario, contraseña)) {
+                GuardarAcceso(usuario, "SATISFACTORIO");
                 GUI_Principal b = new GUI_Principal();
                 b.setVisible(true);
                 dispose();
-            }
-            else 
-            {
+            } else {
+                GuardarAcceso(usuario, "FALLIDO");
                 JOptionPane.showMessageDialog(null, "Usuario y Contraseña Incorrectos", "Error Al Ingresar", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_cj_passKeyTyped
+
+    private boolean Autenticar(String _usuario, String _password) {
+
+        try {
+            try (FileReader fr = new FileReader(Entorno.RutaUsuarios);
+                    BufferedReader br = new BufferedReader(fr)) {
+
+                String d;
+
+                while ((d = br.readLine()) != null) {
+                    StringTokenizer dato = new StringTokenizer(d, "|");
+
+                    Vector x = new Vector();
+                    while (dato.hasMoreTokens()) {
+                        x.addElement(dato.nextToken());
+                    }
+
+                    String usu = x.elementAt(3).toString();
+                    String pwd = x.elementAt(4).toString();
+
+                    if (usu.equals(_usuario) && pwd.equals(_password)) {
+                        return true;
+                    }
+                }
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+
+        return false;
+    }
+
 
     private void cj_usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cj_usuarioActionPerformed
         // TODO add your handling code here:
@@ -135,8 +211,7 @@ public class GUIi_AccesoSistema extends javax.swing.JFrame {
     private void cj_usuarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cj_usuarioKeyTyped
         // TODO add your handling code here:
         int c = evt.getKeyChar();
-        if ( c == 10 )
-        {
+        if (c == 10) {
             cj_pass.requestFocus();
         }
     }//GEN-LAST:event_cj_usuarioKeyTyped
@@ -146,27 +221,14 @@ public class GUIi_AccesoSistema extends javax.swing.JFrame {
         String usuario = cj_usuario.getText().trim();
         String contraseña = new String(cj_pass.getPassword());
 
-        if( usuario.equalsIgnoreCase(user) && contraseña.equalsIgnoreCase(pass) )
-        {
+        if (Autenticar(usuario, contraseña)) {
+            GuardarAcceso(usuario,"SATISFACTORIO");
             GUI_Principal b = new GUI_Principal();
             b.setVisible(true);
             dispose();
-        }
-        else if( usuario.isEmpty() && contraseña.isEmpty() )
-        {
-            JOptionPane.showMessageDialog(null, "Ingrese Usuario y Contraseña");
-        }
-        else if( usuario != user && contraseña != pass )
-        {
+        } else {
+            GuardarAcceso(usuario,"FALLIDO");
             JOptionPane.showMessageDialog(null, "Usuario y Contraseña Incorrectos", "Error Al Ingresar", JOptionPane.ERROR_MESSAGE);
-        }
-        else if( usuario != user )
-        {
-            JOptionPane.showMessageDialog(null, "Usuario Incorrecto", "Usuario No Existe", JOptionPane.ERROR_MESSAGE);
-        }
-        else if( contraseña != pass )
-        {
-            JOptionPane.showMessageDialog(null, "Contraseña Incorrecta", "Contraseña Mal Escrita", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btn_entrarActionPerformed
 
@@ -184,16 +246,24 @@ public class GUIi_AccesoSistema extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GUIi_AccesoSistema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUIi_AccesoSistema.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GUIi_AccesoSistema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUIi_AccesoSistema.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GUIi_AccesoSistema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUIi_AccesoSistema.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GUIi_AccesoSistema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUIi_AccesoSistema.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>

@@ -5,6 +5,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 public class Metodos {
 
@@ -38,5 +40,25 @@ public class Metodos {
             return false;
         }
         return true;
+    }
+
+    public static String GetMachineName() {
+        try {
+            InetAddress addr;
+            addr = InetAddress.getLocalHost();
+
+            return addr.getHostName();
+
+        } catch (UnknownHostException ex) {
+            return "Desconocido";
+        }
+    }
+
+    public static String GetMachineAddress() {
+        try {
+            return InetAddress.getLocalHost().toString();
+        } catch (UnknownHostException e) {
+            return "desconocido";
+        }
     }
 }

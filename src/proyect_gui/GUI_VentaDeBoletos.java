@@ -576,7 +576,6 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
     }
 
     private void btn_p_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_p_guardarActionPerformed
-
         try {
             if (!ValidarFormulario()) {
                 return;
