@@ -70,20 +70,20 @@ public class GUI_ReporteAccesos extends javax.swing.JFrame {
 
         jtbDetalle.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Fecha", "Cedula", "Cliente", "Ruta", "Pasajes", "Total"
+                "USUARIO", "EQUIPO", "FECHA", "HORA", "ESTADO"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -169,12 +169,11 @@ public class GUI_ReporteAccesos extends javax.swing.JFrame {
     public void GeneraReporte() throws ParseException {
         Vector cabeceras = new Vector();
 
+        cabeceras.addElement("USUARIO");
+        cabeceras.addElement("EQUIPO");
         cabeceras.addElement("FECHA");
-        cabeceras.addElement("CEDULA");
-        cabeceras.addElement("CLIENTE");
-        cabeceras.addElement("RUTA");
-        cabeceras.addElement("PASAJES");
-        cabeceras.addElement("TOTAL");
+        cabeceras.addElement("HORA");
+        cabeceras.addElement("ESTADO");
 
         //Crear vector con nombre apellido pasajero cedula edad
         DefaultTableModel mdlTabla = new DefaultTableModel(cabeceras, 0);
@@ -186,7 +185,7 @@ public class GUI_ReporteAccesos extends javax.swing.JFrame {
             Date FechaInicio = new SimpleDateFormat("yyyy/MM/dd").parse(sFechaInicio);
             Date FechaFinal = new SimpleDateFormat("yyyy/MM/dd").parse(sFechaFinal);
 
-            try (FileReader fr = new FileReader(Entorno.RutaBoletos);
+            try (FileReader fr = new FileReader(Entorno.RutaAccesos);
                     BufferedReader br = new BufferedReader(fr)) {
 
                 String d;
@@ -205,12 +204,11 @@ public class GUI_ReporteAccesos extends javax.swing.JFrame {
                     if (FechaBoleto.compareTo(FechaInicio) >= 0 && FechaBoleto.compareTo(FechaFinal) <= 0) {
 
                         Vector reg = new Vector();
-                        reg.addElement(x.get(2));
-                        reg.addElement(x.get(6));
-                        reg.addElement(x.get(7).toString().concat(" ").concat(x.get(8).toString()));
-                        reg.addElement(x.get(11));
+                        reg.addElement(x.get(0));
                         reg.addElement(x.get(1));
-                        reg.addElement(x.get(5));
+                        reg.addElement(x.get(2));
+                        reg.addElement(x.get(3));
+                        reg.addElement(x.get(4));
 
                         mdlTabla.addRow(reg);
                     }
